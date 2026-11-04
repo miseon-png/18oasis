@@ -26,12 +26,10 @@ if uploaded_file is not None:
         
         # --- 다운로드 파일명을 위한 날짜 추출 ---
         try:
-            # 엑셀의 첫 번째 납품예정일자를 YYMMDD 형식으로 변환
             file_date_str = df['납품예정일자'].dropna().iloc[0].strftime('%y%m%d')
         except:
             file_date_str = "날짜없음"
         
-        # 지정하신 형식으로 파일명 조합
         download_filename = f"오아이스 매장라벨 ({file_date_str}).pdf"
         
         # 폰트 설정
@@ -50,9 +48,9 @@ if uploaded_file is not None:
         st.info(f"✅ 4. 총 {len(grouped)}개의 매장 라벨을 그리기 시작합니다...")
         
         for (store, exp_date), group in grouped:
-            # 맨 위: 매장명 (크기 16)
-            c.setFont(font_name, 16)
-            c.drawString(10*mm, 85*mm, f"매장: {store}")
+            # 1. 맨 위: 매장명 ('매장:' 글자 삭제 및 크기 20으로 확대)
+            c.setFont(font_name, 20)
+            c.drawString(10*mm, 85*mm, f"{store}")
             
             # 중간: 상품명 및 수량 (크기 10)
             c.setFont(font_name, 10)
