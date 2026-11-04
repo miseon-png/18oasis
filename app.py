@@ -52,32 +52,31 @@ if uploaded_file is not None:
             c.setFont(font_name, 28)
             c.drawString(10*mm, 88*mm, f"{store}")
             
-            # 2. 중간: 상품 목록 시작 위치 (72mm)
-            y_position = 72*mm
+            # 2. 중간: 상품 목록 시작 위치 (74mm)
+            y_position = 74*mm
             
             for _, row in group.iterrows():
                 product_name = str(row['상품'])
                 qty_unit = f"{row['주문수량']} {row['단위']}"
                 
-                # 상품명 표기 (크기 15)
-                c.setFont(font_name, 15)
+                # 상품명 (크기 13)
+                c.setFont(font_name, 13)
                 c.drawString(10*mm, y_position, f"{product_name}")
-                y_position -= 7.5*mm  # 글자 겹침 방지를 위해 간격을 7.5mm로 넓힘
+                y_position -= 5.5*mm 
                 
-                # 수량 표기 (크기 20)
-                c.setFont(font_name, 20)
+                # 수량 (크기 16)
+                c.setFont(font_name, 16)
                 c.drawString(10*mm, y_position, f"수량: {qty_unit}")
                 
-                # 다음 상품과의 구분 여백 (8.5mm)
-                y_position -= 8.5*mm 
+                # 다음 상품 간격 (한 제품당 약 12mm 사용 -> 3개 제품 총 36mm로 여유 확보)
+                y_position -= 6.5*mm 
                 
-                # 하단 소비기한 영역 침범 방지 한계선 (22mm)
-                if y_position < 22*mm:
+                if y_position < 20*mm:
                     break
                     
-            # 3. 맨 아래: 소비기한 (크기 28, 하단 10mm)
+            # 3. 맨 아래: 소비기한 (크기 28, 하단 9mm)
             c.setFont(font_name, 28) 
-            c.drawString(10*mm, 10*mm, f"소비기한: {exp_date}")
+            c.drawString(10*mm, 9*mm, f"소비기한: {exp_date}")
             c.showPage()
             
         c.save()
