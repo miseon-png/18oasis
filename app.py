@@ -48,12 +48,12 @@ if uploaded_file is not None:
         st.info(f"✅ 4. 총 {len(grouped)}개의 매장 라벨을 그리기 시작합니다...")
         
         for (store, exp_date), group in grouped:
-            # 1. 맨 위: 매장명 (크기 28, 위치 살짝 위로 88mm)
+            # 1. 맨 위: 매장명 (크기 28, 상단 88mm)
             c.setFont(font_name, 28)
             c.drawString(10*mm, 88*mm, f"{store}")
             
-            # 2. 중간: 상품 목록 시작 위치 (75mm)
-            y_position = 75*mm
+            # 2. 중간: 상품 목록 시작 위치 (72mm)
+            y_position = 72*mm
             
             for _, row in group.iterrows():
                 product_name = str(row['상품'])
@@ -62,17 +62,17 @@ if uploaded_file is not None:
                 # 상품명 표기 (크기 15)
                 c.setFont(font_name, 15)
                 c.drawString(10*mm, y_position, f"{product_name}")
-                y_position -= 5.5*mm 
+                y_position -= 7.5*mm  # 글자 겹침 방지를 위해 간격을 7.5mm로 넓힘
                 
                 # 수량 표기 (크기 20)
                 c.setFont(font_name, 20)
                 c.drawString(10*mm, y_position, f"수량: {qty_unit}")
                 
-                # 다음 상품까지의 간격 (6.5mm) -> 한 상품당 총 12mm 사용
-                y_position -= 6.5*mm 
+                # 다음 상품과의 구분 여백 (8.5mm)
+                y_position -= 8.5*mm 
                 
-                # 3개 제품까지 출력 후 공간이 부족하면 생략 처리 (한계선 24mm)
-                if y_position < 24*mm:
+                # 하단 소비기한 영역 침범 방지 한계선 (22mm)
+                if y_position < 22*mm:
                     break
                     
             # 3. 맨 아래: 소비기한 (크기 28, 하단 10mm)
