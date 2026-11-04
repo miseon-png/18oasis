@@ -9,7 +9,8 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 st.title("📦 매장별 물류 라벨 생성기 (안전 모드)")
 
-uploaded_file = st.file_uploader("엑셀 파일을 업로드하세요", type=['xlsx'])
+# xls와 xlsx 형식을 모두 허용하도록 수정
+uploaded_file = st.file_uploader("엑셀 파일을 업로드하세요", type=['xlsx', 'xls'])
 
 if uploaded_file is not None:
     st.info("✅ 1. 엑셀 파일 업로드 완료! 데이터를 읽습니다...")
@@ -19,9 +20,9 @@ if uploaded_file is not None:
         df = pd.read_excel(uploaded_file)
         st.success(f"✅ 2. 엑셀 데이터 읽기 완료! (총 {len(df)}줄)")
         
-        # 2. 날짜 데이터 안전하게 변환 (에러가 나면 무시하고 빈칸 처리)
-        df['납품예정일지'] = pd.to_datetime(df['납품예정일지'], errors='coerce')
-        df['유통기한'] = df['납품예정일지'] + timedelta(days=5)
+        # 2. 날짜 데이터 안전하게 변환 (오타 수정: '납품예정일자')
+        df['납품예정일자'] = pd.to_datetime(df['납품예정일자'], errors='coerce')
+        df['유통기한'] = df['납품예정일자'] + timedelta(days=5)
         df['유통기한_str'] = df['유통기한'].dt.strftime('%y%m%d').fillna('날짜없음')
         st.success("✅ 3. 유통기한 날짜 계산 완료!")
         
