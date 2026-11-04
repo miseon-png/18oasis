@@ -48,12 +48,12 @@ if uploaded_file is not None:
         st.info(f"✅ 4. 총 {len(grouped)}개의 매장 라벨을 그리기 시작합니다...")
         
         for (store, exp_date), group in grouped:
-            # 맨 위: 매장명 (크기 20)
-            c.setFont(font_name, 20)
+            # 맨 위: 매장명 (크기 25)
+            c.setFont(font_name, 25)
             c.drawString(10*mm, 85*mm, f"{store}")
             
-            # 중간: 상품명 및 수량 (크기 10)
-            c.setFont(font_name, 10)
+            # 중간: 상품명 및 수량 (크기 15)
+            c.setFont(font_name, 15)
             y_position = 73*mm
             
             for _, row in group.iterrows():
@@ -74,8 +74,8 @@ if uploaded_file is not None:
                     c.drawString(10*mm, y_position, "...(이하 생략 - 다음 장에 계속)...")
                     break
                     
-            # 맨 아래: 소비기한 (크기 20)
-            c.setFont(font_name, 20) 
+            # 맨 아래: 소비기한 (크기 25)
+            c.setFont(font_name, 25) 
             c.drawString(10*mm, 15*mm, f"소비기한: {exp_date}")
             c.showPage()
             
