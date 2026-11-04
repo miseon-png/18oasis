@@ -24,7 +24,7 @@ if uploaded_file is not None:
         df['유통기한_str'] = df['유통기한'].dt.strftime('%y.%m.%d').fillna('날짜없음')
         st.success("✅ 3. 소비기한 날짜 계산 완료!")
         
-        # --- 다운로드 파일명을 위한 날짜 추출 ---
+        # 다운로드 파일명을 위한 날짜 추출
         try:
             file_date_str = df['납품예정일자'].dropna().iloc[0].strftime('%y%m%d')
         except:
@@ -48,28 +48,34 @@ if uploaded_file is not None:
         st.info(f"✅ 4. 총 {len(grouped)}개의 매장 라벨을 그리기 시작합니다...")
         
         for (store, exp_date), group in grouped:
-            # 1. 맨 위: 매장명 ('매장:' 글자 삭제 및 크기 20으로 확대)
-            c.setFont(font_name, 25)
+            # 맨 위: 매장명 (크기 20)
+            c.setFont(font_name, 20)
             c.drawString(10*mm, 85*mm, f"{store}")
             
-            # 중간: 상품명 및 수량 (크기 15)
-            c.setFont(font_name, 15)
-            y_position = 75*mm
+            # 중간: 상품명 및 수량 (크기 10)
+            c.setFont(font_name, 10)
+            y_position = 73*mm
             
             for _, row in group.iterrows():
                 product_name = str(row['상품'])
                 qty_unit = f"{row['주문수량']} {row['단위']}"
                 
+                # 1번째 줄: 상품명 표기
                 c.drawString(10*mm, y_position, f"{product_name}")
-                c.drawString(80*mm, y_position, f"{qty_unit}")
+                y_position -= 5*mm # 5mm 아래로 이동
                 
-                y_position -= 6*mm
+                # 2번째 줄: 수량 표기 (오른쪽으로 밀어서 배치)
+                c.drawString(75*mm, y_position, f"수량: {qty_unit}")
+                
+                # 다음 상품을 위해 간격을 충분히 띄움
+                y_position -= 7*mm 
+                
                 if y_position < 25*mm:
-                    c.drawString(10*mm, y_position, "...(이하 생략)...")
+                    c.drawString(10*mm, y_position, "...(이하 생략 - 다음 장에 계속)...")
                     break
                     
-            # 맨 아래: 소비기한 (크기 25)
-            c.setFont(font_name, 25) 
+            # 맨 아래: 소비기한 (크기 20)
+            c.setFont(font_name, 20) 
             c.drawString(10*mm, 15*mm, f"소비기한: {exp_date}")
             c.showPage()
             
