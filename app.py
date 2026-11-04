@@ -49,11 +49,11 @@ if uploaded_file is not None:
         
         for (store, exp_date), group in grouped:
             # 1. 맨 위: 매장명 ('매장:' 글자 삭제 및 크기 20으로 확대)
-            c.setFont(font_name, 20)
+            c.setFont(font_name, 25)
             c.drawString(10*mm, 85*mm, f"{store}")
             
-            # 중간: 상품명 및 수량 (크기 10)
-            c.setFont(font_name, 10)
+            # 중간: 상품명 및 수량 (크기 15)
+            c.setFont(font_name, 15)
             y_position = 75*mm
             
             for _, row in group.iterrows():
@@ -68,8 +68,8 @@ if uploaded_file is not None:
                     c.drawString(10*mm, y_position, "...(이하 생략)...")
                     break
                     
-            # 맨 아래: 소비기한 (크기 20)
-            c.setFont(font_name, 20) 
+            # 맨 아래: 소비기한 (크기 25)
+            c.setFont(font_name, 25) 
             c.drawString(10*mm, 15*mm, f"소비기한: {exp_date}")
             c.showPage()
             
