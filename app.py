@@ -48,37 +48,36 @@ if uploaded_file is not None:
         st.info(f"✅ 4. 총 {len(grouped)}개의 매장 라벨을 그리기 시작합니다...")
         
         for (store, exp_date), group in grouped:
-            # 맨 위: 매장명 (크기 28)
+            # 1. 맨 위: 매장명 (크기 28, 위치 살짝 위로 88mm)
             c.setFont(font_name, 28)
-            c.drawString(10*mm, 85*mm, f"{store}")
+            c.drawString(10*mm, 88*mm, f"{store}")
             
-            # 중간: 상품 목록 시작 위치 (큰 글씨에 맞춰 약간 아래로 내림)
-            y_position = 70*mm
+            # 2. 중간: 상품 목록 시작 위치 (75mm)
+            y_position = 75*mm
             
             for _, row in group.iterrows():
                 product_name = str(row['상품'])
                 qty_unit = f"{row['주문수량']} {row['단위']}"
                 
-                # 1번째 줄: 상품명 표기 (크기 15)
+                # 상품명 표기 (크기 15)
                 c.setFont(font_name, 15)
                 c.drawString(10*mm, y_position, f"{product_name}")
-                y_position -= 7*mm # 글씨가 커진 만큼 줄 간격을 7mm로 띄움
+                y_position -= 5.5*mm 
                 
-                # 2번째 줄: 수량 표기 (크기 20)
+                # 수량 표기 (크기 20)
                 c.setFont(font_name, 20)
                 c.drawString(10*mm, y_position, f"수량: {qty_unit}")
                 
-                # 다음 상품을 위해 간격을 충분히 띄움 (9mm)
-                y_position -= 9*mm 
+                # 다음 상품까지의 간격 (6.5mm) -> 한 상품당 총 12mm 사용
+                y_position -= 6.5*mm 
                 
-                if y_position < 25*mm:
-                    c.setFont(font_name, 10) # 생략 메시지는 작게 표시
-                    c.drawString(10*mm, y_position, "...(이하 생략 - 다음 장에 계속)...")
+                # 3개 제품까지 출력 후 공간이 부족하면 생략 처리 (한계선 24mm)
+                if y_position < 24*mm:
                     break
                     
-            # 맨 아래: 소비기한 (크기 28)
+            # 3. 맨 아래: 소비기한 (크기 28, 하단 10mm)
             c.setFont(font_name, 28) 
-            c.drawString(10*mm, 15*mm, f"소비기한: {exp_date}")
+            c.drawString(10*mm, 10*mm, f"소비기한: {exp_date}")
             c.showPage()
             
         c.save()
